@@ -1,27 +1,37 @@
 # PTB using RPI
 
+# Overview 
+
+<img width="1280" alt="homepage" src="https://user-images.githubusercontent.com/15458329/65266855-29492880-db14-11e9-857b-fb1e938a1781.jpeg">
 
 ### requirements : 
 
 - RPI 
-	- openvpn
-	- edit sysctl.conf
-	- iptables-persistent
+    - openvpn
+    - iptables-persistent
 - VPS
-	- openvpn
-	- iptables-persistent
-	- tools attack
-	- edit sysctl.conf
+    - openvpn
+    - iptables-persistent
+    - tools
 
 *Note : CA server and Openvpn Server are the same ( its the VPS )*
 
- on both u should edit `sudo nano /etc/sysctl.conf` and set net.ipv4.ip_forward to `1`
+ On both (`VPS/RPI`) u should edit `sudo nano /etc/sysctl.conf` and set net.ipv4.ip_forward to `1`
  then use `sudo sysctl -p` to verify if it worked
 
  *Every commmand are executed on VPS* 
 
+# How to use 
 
-# Generate ca.crt and server.crt
+just add the route of the target network for exemple : `ip route add 192.168.1.0/24 via 10.0.0.2`
+here `10.0.0.2` are the ip of `rpi` from `tun0`
+then u can try to ping machine on victim local network
+
+
+# Install 
+
+
+### Generate ca.crt and server.crt
 
 ``` 
 wget -P ~/ https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.4/EasyRSA-3.0.4.tgz
@@ -34,8 +44,7 @@ nano vars # change set_var EASYRSA_REQ_* by what u want and uncomment
 ./easyrsa build-ca nopass ( just press enter )
 ``` 
 
-Now we have ca.crt 
-
+Now we have `ca.crt`
 
 ``` 
 
@@ -47,14 +56,12 @@ sudo cp ~/EasyRSA-3.0.4/pki/private/server.key /etc/openvpn/
 
 Now copy `server.crt`, `ca.crt` to `/etc/openvpn`
 
-# Generate dh.pem and ta.key
+### Generate dh.pem and ta.key
 
 
 ```
-
 ./easyrsa gen-dh
 openvpn --genkey --secret ta.key
-
 ``` 
 
 Now copy `ta.key` and `dh.pem` to /etc/openvpn
@@ -65,7 +72,7 @@ Now copy `ta.key` and `dh.pem` to /etc/openvpn
 `chmod -R 700 ~/client-configs`
 
 
-# Generate client1.key
+### Generate client1.key
 
 ./easyrsa gen-req client1 nopass
 
@@ -204,15 +211,7 @@ Now u can connect using this command `sudo openvpn client1.ovpn` and u'll be con
 Also, u can run this when rpi boot  using this command `sudo systemctl enable openvpn@client1`
 
 
-# How to use 
-
-just add the route of the target network for exemple : `ip route add 192.168.1.0/24 via 10.0.0.2`
-here `10.0.0.2` are the ip of `rpi` from `tun0`
-then u can try to ping machine on victim local network
-
-
-
-# Advenced 
+# Advanced 
 
 iptables-save -c > /etc/iptables/rules.v4
 
@@ -236,4 +235,3 @@ u can also verify if connexion are done `netstat -laputen | grep ESTABLISHED`
 
 
 inspired by https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04
-
