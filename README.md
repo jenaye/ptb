@@ -16,18 +16,18 @@
     - iptables-persistent
     - tools
 
-*Note : CA server and Openvpn Server are the same ( its the VPS )*
+*Note : CA server and Openvpn Server are the same ( It's the VPS )*
 
- On both (`VPS/RPI`) u should edit `sudo nano /etc/sysctl.conf` and set net.ipv4.ip_forward to `1`
+ On both (`VPS/RPI`) you should edit `sudo nano /etc/sysctl.conf` and set net.ipv4.ip_forward to `1`
  then use `sudo sysctl -p` to verify if it worked
 
- *Every commmand are executed on VPS* 
+ *Every command are executed on VPS* 
 
 # How to use 
 
-just add the route of the target network for exemple : `ip route add 192.168.1.0/24 via 10.0.0.2`
-here `10.0.0.2` are the ip of `rpi` from `tun0`
-then u can try to ping machine on victim local network
+Add the route of the target network for exemple : `ip route add 192.168.1.0/24 via 10.0.0.2`
+here `10.0.0.2` is the ip of `rpi` from `tun0`
+Then you can try to ping the machine of the victim local network
 
 
 # Install 
@@ -93,7 +93,7 @@ sudo gzip -d /etc/openvpn/server.conf.gz
 
 ``` 
 
-Copy this to u're `server.conf` in /etc/openvpn
+Copy this to your `server.conf` in /etc/openvpn
 
 ```
 ifconfig 10.10.10.1 10.10.10.2
@@ -132,7 +132,7 @@ log-append /var/log/openvpn.log
 run this on both ( vps/rpi ) :  `iptables -t nat -A POSTROUTING -s 0.0.0.0/0 -j MASQUERADE`
 
 
-To run openvpn service at start `sudo systemctl enable openvpn@server`  (`server` its the xxx.conf into /etc/openvpn)
+To run openvpn service at start `sudo systemctl enable openvpn@server`  (`server` it's the xxx.conf into /etc/openvpn)
 
 ```
 mkdir -p ~/client-configs/files
@@ -202,15 +202,15 @@ cat ${BASE_CONFIG} \
 
 ``` 
 
-add right  : `chmod 700 ~/client-configs/make_config.sh`
+To add rights  : `chmod 700 ~/client-configs/make_config.sh`
 
 `sudo ./make_config.sh client1` => output `client1.ovpn` in folder `files`
 
 Now we have config file, we just need to push it on RPI ( by scp or other ) in folder `/etc/openvpn ` and rename file `client1.ovpn` to `client1.conf`
 
-Now u can connect using this command `sudo openvpn client1.ovpn` and u'll be connected 
+Now you can connect using this command `sudo openvpn client1.ovpn` and you'll be connected 
 
-Also, u can run this when rpi boot  using this command `sudo systemctl enable openvpn@client1`
+Also, you can run this when rpi boot  using this command `sudo systemctl enable openvpn@client1`
 
 
 # Advanced 
@@ -220,7 +220,7 @@ iptables-save -c > /etc/iptables/rules.v4
 
 # Verify
 
-All theses file should be in `/etc/openvpn` of the VPS : 
+All theses files should be in `/etc/openvpn` of the VPS : 
 
 ```
 - ca.crt
@@ -231,9 +231,9 @@ All theses file should be in `/etc/openvpn` of the VPS :
 - ta.key
 ``` 
 
-if u have it, just run  `tcpdump port 4443` on VPS, then try to connect on it via RPI
+If you have them all, just run  `tcpdump port 4443` on VPS, then try to connect on it via RPI
 
-u can also verify if connexion are done `netstat -laputen | grep ESTABLISHED` 
+You can also verify if connexion are done thanks to: `netstat -laputen | grep ESTABLISHED` 
 
 
-inspired by https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-18-04
+Inspired by https://www.digitalocean.com/community/tutorials/ho
