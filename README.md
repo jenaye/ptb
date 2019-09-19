@@ -21,6 +21,8 @@
  On both (`VPS/RPI`) you should edit `sudo nano /etc/sysctl.conf` and set net.ipv4.ip_forward to `1`
  then use `sudo sysctl -p` to verify if it worked
 
+ and run this on both too  `iptables -t nat -A POSTROUTING -s 0.0.0.0/0 -j MASQUERADE`
+
  *Every command are executed on VPS* 
 
 # How to use 
@@ -28,6 +30,8 @@
 Add the route of the target network for exemple : `ip route add 192.168.1.0/24 via 10.0.0.2`
 here `10.0.0.2` is the ip of `rpi` from `tun0`
 Then you can try to ping the machine of the victim local network
+
+
 
 
 # Install 
