@@ -168,7 +168,7 @@ verb 3
 ```
 
 
-Create script to generate openvpn file
+Create script who gna generate openvpn file correctly
 
 `nano ~/client-configs/make_config.sh`
 
