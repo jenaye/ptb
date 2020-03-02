@@ -1,6 +1,6 @@
 # PTB using RPI
 
-![Archi](../images/archi.png)
+![Archi](images/archi.png)
 # Overview 
 
 <img width="1280" alt="homepage" src="https://user-images.githubusercontent.com/15458329/65266855-29492880-db14-11e9-857b-fb1e938a1781.jpeg">
