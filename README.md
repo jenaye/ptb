@@ -17,21 +17,19 @@
 
 *Note : CA server and Openvpn Server are the same ( It's the VPS )*
 
- On both (`VPS/RPI`) you should edit `sudo nano /etc/sysctl.conf` and set net.ipv4.ip_forward to `1`
- then use `sudo sysctl -p` to verify if it worked
+ On both (`VPS/RPI`) you should edit `sudo nano /etc/sysctl.conf` and set `net.ipv4.ip_forward` to `1` then use `sudo sysctl -p` to verify if it worked
 
- and run this on both too  `iptables -t nat -A POSTROUTING -s 0.0.0.0/0 -j MASQUERADE`
+ and run this on both too `iptables -t nat -A POSTROUTING -s 0.0.0.0/0 -j MASQUERADE`
 
  *Every command are executed on VPS* 
 
 # How to use 
 
 Add the route of the target network for exemple : `ip route add 192.168.1.0/24 via 10.0.0.2`
-here `10.0.0.2` is the ip of `rpi` from `tun0`
+here `10.0.0.2` is the ip of `rpi` from `tun0` interface.
 Then you can try to ping the machine of the victim local network
-
-
-
+After added route, you can make `nmap`  like `nmap -v -Pn -sT -T5 -p 22,80,2222,8080 -sV -oA nmap.txt 192.168.1.16`
+And sure you still can use `proxychains <program> <program parameters>` 
 
 # Install 
 
@@ -69,7 +67,7 @@ Now copy `server.crt`, `ca.crt` to `/etc/openvpn`
 openvpn --genkey --secret ta.key
 ``` 
 
-Now copy `ta.key` and `dh.pem` to /etc/openvpn
+Now copy `ta.key` and `dh.pem` to `/etc/openvpn`
 
 
 `mkdir -p ~/client-configs/keys` 
@@ -81,13 +79,7 @@ Now copy `ta.key` and `dh.pem` to /etc/openvpn
 
 ./easyrsa gen-req client1 nopass
 
-copy `client1.key`  to `/etc/openvpn`
-
-sign it 
-
-`./easyrsa sign-req client client1`  say yes
-
-now we have `client1.crt` 
+copy `client1.key`  to `/etc/openvpn` sign it `./easyrsa sign-req client client1` say yes now we have `client1.crt` 
 
 ```
 
@@ -96,7 +88,7 @@ sudo gzip -d /etc/openvpn/server.conf.gz
 
 ``` 
 
-Copy this to your `server.conf` in /etc/openvpn
+Copy this to your `server.conf` in `/etc/openvpn`
 
 ```
 ifconfig 10.10.10.1 10.10.10.2
@@ -135,7 +127,7 @@ log-append /var/log/openvpn.log
 run this on both ( vps/rpi ) :  `iptables -t nat -A POSTROUTING -s 0.0.0.0/0 -j MASQUERADE`
 
 
-To run openvpn service at start `sudo systemctl enable openvpn@server`  (`server` it's the xxx.conf into /etc/openvpn)
+To run openvpn service at start `sudo systemctl enable openvpn@server`  (`server` it's the `xxx.conf` into `/etc/openvpn`)
 
 ```
 mkdir -p ~/client-configs/files
@@ -175,7 +167,7 @@ verb 3
 ```
 
 
-Create script to generate openvpn file
+Create script who gna generate openvpn file correctly
 
 `nano ~/client-configs/make_config.sh`
 
@@ -209,21 +201,21 @@ To add rights  : `chmod 700 ~/client-configs/make_config.sh`
 
 `sudo ./make_config.sh client1` => output `client1.ovpn` in folder `files`
 
-Now we have config file, we just need to push it on RPI ( by scp or other ) in folder `/etc/openvpn ` and rename file `client1.ovpn` to `client1.conf`
+Now we have config file, we just need to push it on `RPI` ( by scp or other ) in folder `/etc/openvpn ` and rename file `client1.ovpn` to `client1.conf`.
 
-Now you can connect using this command `sudo openvpn client1.ovpn` and you'll be connected 
+Now you can connect using this command `sudo openvpn client1.ovpn` and you'll be connected. 
 
-Also, you can run this when rpi boot  using this command `sudo systemctl enable openvpn@client1`
+Also, you can run this when rpi boot  using this command `sudo systemctl enable openvpn@client1`.
 
 
 # Advanced 
 
-iptables-save -c > /etc/iptables/rules.v4
+`iptables-save -c > /etc/iptables/rules.v4`
 
 
 # Verify
 
-All theses files should be in `/etc/openvpn` of the VPS : 
+All theses files should be in `/etc/openvpn` of the `VPS` : 
 
 ```
 - ca.crt
@@ -234,9 +226,9 @@ All theses files should be in `/etc/openvpn` of the VPS :
 - ta.key
 ``` 
 
-If you have them all, just run  `tcpdump port 4443` on VPS, then try to connect on it via RPI
+If you have them all, just run  `tcpdump port 4443` on `VPS`, then try to connect on it via `RPI`
 
 You can also verify if connexion are done thanks to: `netstat -laputen | grep ESTABLISHED` 
 
 
-Inspired by https://www.digitalocean.com/community/tutorials/ho
+Inspired by `https://www.digitalocean.com/community/tutorials/ho`
