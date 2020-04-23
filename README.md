@@ -1,6 +1,12 @@
 # PTB using RPI
 
-![Archi](images/archi.png)
+<p align="center">
+  <img alt="ptb logo" src="https://raw.githubusercontent.com/jenaye/ptb/master/images/logo.png" height="150" />
+</p>
+
+
+**PTB** This box allows you to make remote physical intrusion tests through an ssh tunnel. 
+
 # Overview 
 
 <img width="1280" alt="homepage" src="https://user-images.githubusercontent.com/15458329/65266855-29492880-db14-11e9-857b-fb1e938a1781.jpeg">
@@ -232,3 +238,8 @@ You can also verify if connexion are done thanks to: `netstat -laputen | grep ES
 
 
 Inspired by `https://www.digitalocean.com/community/tutorials/ho`
+
+
+# Network 
+
+![Archi](images/archi.png)
