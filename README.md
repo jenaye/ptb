@@ -7,7 +7,7 @@
 
 **PTB** allows you to make remote physical intrusion tests through an ssh tunnel. 
 
-### requirements : 
+### Requirements : 
 
 - RPI 
     - openvpn
@@ -31,7 +31,7 @@ Add the route of the target network for exemple : `ip route add 192.168.1.0/24 v
 here `10.0.0.2` is the ip of `rpi` from `tun0` interface.
 Then you can try to ping the machine of the victim local network
 After added route, you can make `nmap`  like `nmap -v -Pn -sT -T5 -p 22,80,2222,8080 -sV -oA nmap.txt 192.168.1.16`
-And sure you still can use `proxychains <program> <program parameters>` 
+Of course you still can use `proxychains <program> <program parameters>` 
 
 # Install 
 
@@ -239,9 +239,4 @@ Inspired by `https://www.digitalocean.com/community/tutorials/ho`
 # Network 
 
 ![Archi](images/archi.png)
-
-# Overview 
-
-<img width="1280" alt="homepage" src="https://user-images.githubusercontent.com/15458$
-
 
