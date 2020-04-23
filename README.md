@@ -5,7 +5,7 @@
 </p>
 
 
-**PTB** This box allows you to make remote physical intrusion tests through an ssh tunnel. 
+**PTB** allows you to make remote physical intrusion tests through an ssh tunnel. 
 
 ### requirements : 
 
